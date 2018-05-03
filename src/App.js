@@ -9,10 +9,9 @@ class App extends Component {
   componentWillMount() {
     // Access token is stored in localstorage
     const auth = JSON.parse(localStorage.getItem(LS_KEY));
-    this.setState({
-      auth
-    });
-  }
+    this.setState({auth});
+  };
+
   handleLoggedIn = auth => {
     localStorage.setItem(LS_KEY, JSON.stringify(auth));
     this.setState({ auth });

@@ -12,7 +12,7 @@ const UserSchema = mongoose.Schema({
     },
 	username: {
         type: String,
-        unique: true
+        default: ''
     },
     votes:{type: Number, default: 3}
 });

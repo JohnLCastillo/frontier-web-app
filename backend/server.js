@@ -4,13 +4,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const { router: usersRouter } = require('./users');
+const bodyParser = require('body-parser');
 
+const jsonParser = bodyParser.json();
 mongoose.Promise = global.Promise;
 // const { PORT, DATABASE_URL } = require('./config');
 
 const app = express();
 
-app.use('/api',usersRouter);
 
 // Logging
 app.use(morgan('common'));
@@ -25,6 +26,9 @@ app.use(function (req, res, next) {
 	}
 	next();
 });
+app.use(jsonParser);
+
+app.use('/api',usersRouter);
 
 app.use('*', (req, res) => {
 	return res.status(404).json({ message: 'Not Found' });
@@ -35,7 +39,7 @@ app.use('*', (req, res) => {
 let server;
 
 function runServer(databaseUrl = process.env.DATABASE_URL, port = process.env.PORT) {
-    console.log(port)
+    console.log(databaseUrl)
 	return new Promise((resolve, reject) => {
 		mongoose.connect(databaseUrl, err => {
 			if (err) {
