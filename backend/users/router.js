@@ -110,6 +110,7 @@ router.get("/users", (req, res, next) => {
     .catch(next);
 });
 
+/** POST /api/resetVotes */
 router.post('/resetVotes', (req, res, next) => {
 
   return User.updateMany({ votes : 3})

@@ -6,10 +6,12 @@ import Info from './Info'
 import Login from './Login'
 import Profile from './User'
 import Table from "./Table";
-import Voting from './Voting';
-import Purchase from './Purchase'
 import jwtDecode from 'jwt-decode';
-const LS_KEY = "mm-login-demo:auth";
+// UNCOMMENT COMPONENTS FOR TESTING!!
+// import Voting from './Voting';
+// import Purchase from './Purchase'
+
+const LS_KEY = "Hi Carlos!";
 
 export const socket = io(process.env.REACT_APP_BACKEND_BASE_URL);
 
@@ -17,6 +19,8 @@ class App extends Component {
   constructor (props){
     super (props);
 
+    // WHERE REACT AND THE SMART CONTRACT GET CONNECTED... MUST MINIMIZE THE CODE AS IT IS 200+ LINES OF ABI CODE.
+    
     const MyContract = window.web3.eth.contract([
       {
         "constant": false,
@@ -339,11 +343,23 @@ class App extends Component {
   handleLoggedOut = () => {
     localStorage.removeItem(LS_KEY);
     this.setState({ auth: undefined });
+    window.location.reload();
   };
 
   render() {
-    //console.log('State: ', this.state);
+    // UNCOMMENT COMPONENTS FOR TESTING!!
     const { auth } = this.state;
+    const webApp = 
+    (<div>
+      <div>
+        <Table auth={auth} candidates={this.state.candidates}/>
+        {/* <Voting contract={this.state.ContractInstance}/> */}
+    </div>
+    {/* <div>
+        <Purchase contract={this.state.ContractInstance}/>
+      </div>  */}
+    </div>);
+
     return (
       <div className="App">
         <header className="App-header">
@@ -358,13 +374,8 @@ class App extends Component {
             <Login onLoggedIn={this.handleLoggedIn} />
           )}
         </div>
-        <div>
-          <Table auth={auth} candidates={this.state.candidates}/>
-          <Voting contract={this.state.ContractInstance}/>
-        </div>
-        <div>
-          <Purchase contract={this.state.ContractInstance}/>
-        </div>
+        {auth ?
+        webApp: ''}
       </div>
     );
   }

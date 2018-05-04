@@ -88,7 +88,7 @@ class Login extends Component {
 
   handleSignMessage = (publicAddress, nonce) => {
     //console.log('handleSignMessage ran', nonce, publicAddress);
-    return web3.eth.sign(web3.utils.sha3("this could be anything john lmao."), publicAddress).then(signature => {
+    return web3.eth.sign(web3.utils.sha3("this could be anything"), publicAddress).then(signature => {
         //console.log('web3 personal sign data', signature);
         return { publicAddress, signature };
       })
