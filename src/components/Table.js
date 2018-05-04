@@ -7,11 +7,24 @@ class Table extends Component {
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th>Candidate</th>
+              <th>Candidates</th>
               <th>Votes</th>
             </tr>
           </thead>
-          <tbody id="candidate-rows" />
+          <tbody id="candidate-rows" >
+            <tr>
+                <td>AA</td>
+                <td>{this.props.AA}</td>
+            </tr>
+            <tr>
+                <td>BB</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>CC</td>
+                <td></td>
+            </tr>
+            </tbody>
         </table>
       </div>
     );

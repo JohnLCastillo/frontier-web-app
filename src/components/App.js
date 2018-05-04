@@ -4,6 +4,7 @@ import "./App.css";
 import Info from './Info'
 import Login from './Login'
 import Profile from './User'
+import Table from "./Table";
 const LS_KEY = "mm-login-demo:auth";
 
 class App extends Component {
@@ -273,7 +274,10 @@ class App extends Component {
       }
     ]);
     this.state = {
-      ContractInstance: MyContract.at('0x31ce01dd8f9d5619fdb434f6a364f98528ddd825')
+      ContractInstance: MyContract.at('0x31ce01dd8f9d5619fdb434f6a364f98528ddd825'),
+      AA: 0,
+      BB: 0,
+      CC: 0
     }
   }
   componentWillMount() {
@@ -307,6 +311,9 @@ class App extends Component {
           ) : (
             <Login onLoggedIn={this.handleLoggedIn} />
           )}
+        </div>
+        <div>
+          <Table />
         </div>
       </div>
     );
