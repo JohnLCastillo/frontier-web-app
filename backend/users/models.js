@@ -14,9 +14,16 @@ const UserSchema = mongoose.Schema({
         type: String,
         default: ''
     },
-    votes:{type: Number, default: 3}
+    votes:{ type: Number, default: 3,  min: [0, 'Make me rich, buy more votes.'],}
 });
 
+UserSchema.path('votes').validate(function(value) {
+    // When running in `validate()` or `validateSync()`, the
+    // validator can access the document using `this`.
+    // Does **not** work with update validators.
+    console.log('models -> value: ', value);
+    return value >= 0;
+  });
 
 UserSchema.methods.serialize = function() {
 	return {

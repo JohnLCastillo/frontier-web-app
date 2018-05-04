@@ -20,7 +20,7 @@ class Login extends Component {
     }).then(response => response.json());
 
   handleClick = () => {
-    const { onLoggedIn } = this.props;
+    console.log('in handleClick!');
     if (!window.web3) {
       window.alert('Please install MetaMask first.');
       return;
@@ -28,9 +28,13 @@ class Login extends Component {
     if (!web3) {
       // We don't know window.web3 version, so we use our own instance of web3
       // with provider given by window.web3
+      console.log('web3 is null');
       web3 = new Web3(window.web3.currentProvider);
-    }else {
+      // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+
+    } else {
       // set the provider you want from Web3.providers
+      console.log('web3 is not null');
       web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     }
     // console.log(window.web3.eth.coinbase)
@@ -41,62 +45,56 @@ class Login extends Component {
     // }
     // console.log(window.web3.personal)
     web3.eth.getCoinbase()
-    .then(data => {
-      // console.log(data)
-    currentCoinbase = data 
-    publicAddress = currentCoinbase.toLowerCase();
-    this.setState({ loading: true })
+      .then(data => {
+        console.log('coinbase data', data);
+        if (!data) {
+          throw new Error('Log into Metamask.');
+        }
 
-    // Look if user with current publicAddress is already present on backend
-    fetch(
-      `${
-        process.env.REACT_APP_BACKEND_URL
-      }/users?publicAddress=${publicAddress}`
-    )
-      .then(response => 
-        // console.log('I ran',response.json())
-        response.json()
-      )
-        .then(
-          users => (users.length ? users[0] : this.handleSignup(publicAddress)))
-          //   console.log('users man',users)
-          //   if(users[0] === undefined){
-          //     this.handleSignup(publicAddress)
-          //   }else {
-          //     console.log('user present')
-          //   (users[0])
-          //   }
-          //   // users.json()
-          // })
-        .then(data => 
-          this.handleSignMessage(data.publicAddress,data.nonce))
-        .then(data => 
-          this.handleAuthenticate(data.publicAddress,data.signature)
-        )
+        currentCoinbase = data;
+        publicAddress = currentCoinbase.toLowerCase();
+        console.log('publicAddress from coinbase data', publicAddress);
+        this.setState({ loading: true })
+
+        // Look if user with current publicAddress is already present on backend
+        return fetch(`${process.env.REACT_APP_BACKEND_URL}/users?publicAddress=${publicAddress}`)
+      })
+      .then(response => response.json())
+      .then(users => {
+        console.log('server-response', users);
+        return (users.length ? users[0] : this.handleSignup(publicAddress))
+      })
+      .then(data => {
+        console.log('handleSignUp response', data);
+        return this.handleSignMessage(data.publicAddress, data.nonce);
+      })
+      .then(data => {
+        console.log('handleSignMessage response', data);
+        return this.handleAuthenticate(data.publicAddress,data.signature);
+      })
       // Pass accessToken back to parent component (to save it in localStorage)
-      .then(onLoggedIn)
+      // .then(onLoggedIn)
+      .then((data) => this.props.onLoggedIn(data))
+      // .then((data) => console.log(data))
       .catch(err => {
+        console.log('err! - from login auth', err.message);
         window.alert(err);
         this.setState({ loading: false });
-      })
-    });
-      // If yes, retrieve it. If no, create it.
-      // Popup MetaMask confirmation modal to sign message
-      // Send signature to backend on the /auth route
+      });
+    // If yes, retrieve it. If no, create it.
+    // Popup MetaMask confirmation modal to sign message
+    // Send signature to backend on the /auth route
   };
 
   handleSignMessage = (publicAddress, nonce) => {
-    // console.log('this rannnnn', nonce)
-    return new Promise((resolve, reject) =>
-      window.web3.personal.sign(
-        web3.utils.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
-        publicAddress,
-        (err, signature) => {
-          if (err) return reject(err);
-          return resolve({ publicAddress, signature });
-        }
-      )
-    );
+    console.log('handleSignMessage ran', nonce, publicAddress);
+    return web3.eth.sign(web3.utils.sha3("this could be anything john lmao."), publicAddress).then(signature => {
+        console.log('web3 personal sign data', signature);
+        return { publicAddress, signature };
+      })
+      .catch(err => {
+        console.log('web3.eth' , err);
+      });
   };
 
   handleSignup = publicAddress => {
@@ -108,10 +106,10 @@ class Login extends Component {
       body: JSON.stringify({publicAddress})
     }).then(response => {
       // console.log(publicAddress)
-      response.json()
+      return response.json()
     })
-    // .catch(err => console.log(err));
-  }
+    .catch(err => console.log('handle signup err: ', err));
+  };
 
   render() {
     const { loading } = this.state;

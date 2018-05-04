@@ -110,6 +110,16 @@ router.get("/users", (req, res, next) => {
     .catch(next);
 });
 
+router.post('/resetVotes', (req, res, next) => {
+
+  return User.updateMany({ votes : 3})
+    .then(data => {
+      console.log('/resetVotes', data);
+      res.send('/resetVotes');
+    })
+    .catch(next)
+})
+
 /** GET /api/users/:userId */
 /** Authenticated route */
 router.get(

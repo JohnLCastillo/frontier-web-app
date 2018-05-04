@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import io from 'socket.io-client';
 import logo from "../logo.svg";
 import "./App.css";
 import Info from './Info'
@@ -7,7 +8,10 @@ import Profile from './User'
 import Table from "./Table";
 import Voting from './Voting';
 import Purchase from './Purchase'
+import jwtDecode from 'jwt-decode';
 const LS_KEY = "mm-login-demo:auth";
+
+export const socket = io(process.env.REACT_APP_BACKEND_BASE_URL);
 
 class App extends Component {
   constructor (props){
@@ -275,24 +279,61 @@ class App extends Component {
         "type": "function"
       }
     ]);
+
     this.state = {
       ContractInstance: MyContract.at('0x31ce01dd8f9d5619fdb434f6a364f98528ddd825'),
-      candiates: {
-        AA: 0,
-        BB: 0,
-        CC: 0
-      }
+      candidates: [],
+      votes: 0
     }
+
+    socket.on('join data', (data) => {
+      console.log('join data -> ', data);
+      
+      this.setState({ 
+        candidates: data.allCandidates,
+        votes: data.votes
+       });
+    });
+
+    socket.on('votes reset', (data) => {
+      console.log('votes reset -> ', data);
+      this.setState({ 
+        votes: data.votes
+       });
+    });
+
+    socket.on('updated votes', (data) => {
+      console.log('updated votes -> ', data);
+      this.setState({ 
+        candidates: data.allCandidates,
+        votes: data.votes
+       });
+    });
   }
   componentWillMount() {
     // Access token is stored in localstorage
     const auth = JSON.parse(localStorage.getItem(LS_KEY));
     this.setState({auth});
+
+    // when a person is already logged in, they get their data
+    if (auth) {
+      const { accessToken } = auth;
+      const { payload: { publicAddress } } = jwtDecode(accessToken);
+      console.log('joinnnn');
+      socket.emit('join', { publicAddress });
+    }
+  
   };
 
   handleLoggedIn = auth => {
     localStorage.setItem(LS_KEY, JSON.stringify(auth));
     this.setState({ auth });
+
+    const { accessToken } = auth;
+    const { payload: { publicAddress } } = jwtDecode(accessToken);
+
+    // when a person logs in, they get their data
+    socket.emit('join', { publicAddress });
   };
 
   handleLoggedOut = () => {
@@ -301,6 +342,7 @@ class App extends Component {
   };
 
   render() {
+    console.log('State: ', this.state);
     const { auth } = this.state;
     return (
       <div className="App">
@@ -308,15 +350,16 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <Info/>
         </header>
+        <br/>
         <div className="App-intro">
           {auth ? (
-            <Profile auth={auth} onLoggedOut={this.handleLoggedOut} />
+            <Profile votes={this.state.votes} auth={auth} onLoggedOut={this.handleLoggedOut} />
           ) : (
             <Login onLoggedIn={this.handleLoggedIn} />
           )}
         </div>
         <div>
-          <Table votes={this.state.candiates}/>
+          <Table auth={auth} candidates={this.state.candidates}/>
           <Voting contract={this.state.ContractInstance}/>
         </div>
         <div>

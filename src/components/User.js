@@ -30,7 +30,7 @@ class Profile extends Component {
     const { auth: { accessToken } } = this.props;
     const { user, username } = this.state;
     this.setState({ loading: true });
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${user.id}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${user._id}`, {
       body: JSON.stringify({ username }),
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -59,10 +59,10 @@ class Profile extends Component {
           Logged in as <Blockies seed={publicAddress} />
         </p>
         <div>
-          Total Votes left today: {this.state.user ? this.state.user.votes : null}
+          Total Votes left today: {this.props.votes}
           <br/>
-          My username is {username ? <pre>{username}</pre> : 'not set.'} My
-          publicAddress is <pre>{publicAddress}</pre>
+          My username is {username ? <p>{username}</p> : 'not set.'} My
+          publicAddress is <p>{publicAddress}</p>
         </div>
         <div>
           <label htmlFor="username">Change username: </label>

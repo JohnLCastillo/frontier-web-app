@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const { router: usersRouter } = require('./users');
+const { router: candidateRouter, socket } = require('./candidates');
 const bodyParser = require('body-parser');
 
 const jsonParser = bodyParser.json();
@@ -28,7 +29,8 @@ app.use(function (req, res, next) {
 });
 app.use(jsonParser);
 
-app.use('/api',usersRouter);
+app.use('/api', usersRouter);
+app.use('/candidate', candidateRouter);
 
 app.use('*', (req, res) => {
 	return res.status(404).json({ message: 'Not Found' });
@@ -39,7 +41,7 @@ app.use('*', (req, res) => {
 let server;
 
 function runServer(databaseUrl = process.env.DATABASE_URL, port = process.env.PORT) {
-    console.log(databaseUrl)
+    console.log('databaseurl-', databaseUrl)
 	return new Promise((resolve, reject) => {
 		mongoose.connect(databaseUrl, err => {
 			if (err) {
@@ -47,6 +49,7 @@ function runServer(databaseUrl = process.env.DATABASE_URL, port = process.env.PO
 			}
 			server = app.listen(port, () => {
 				console.log(`Your app is listening on port ${port}`);
+				socket(server);
 				resolve(server);
 			})
 				.on('error', err => {

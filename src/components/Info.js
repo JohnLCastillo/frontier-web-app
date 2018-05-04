@@ -11,7 +11,6 @@ class Info extends Component {
                 <br/>
                  <strong>Step 3</strong>: Vote for candidates by entering their name and no. of tokens to vote with.
                  <br/>
-                 <strong>Step 4</strong>: Enter your account address to look up your voting activity.
              </div>
         );
     }
