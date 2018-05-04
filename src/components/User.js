@@ -59,6 +59,8 @@ class Profile extends Component {
           Logged in as <Blockies seed={publicAddress} />
         </p>
         <div>
+          Total Votes left today: {this.state.user ? this.state.user.votes : null}
+          <br/>
           My username is {username ? <pre>{username}</pre> : 'not set.'} My
           publicAddress is <pre>{publicAddress}</pre>
         </div>
