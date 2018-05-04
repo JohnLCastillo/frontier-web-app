@@ -34,9 +34,9 @@ Voting app that includes authentication with Metamask and connected to a smart c
 ## Client - Components
 
 * App -
-    Purpose: Start of application
-    Connected: Yes
-    State: Stateful
+    Purpose: Start of application -
+    Connected: Yes -
+    State: Stateful -
     Children:
       User
       Voting
@@ -45,39 +45,39 @@ Voting app that includes authentication with Metamask and connected to a smart c
       Login
       Purchase
 * User -
-    Purpose: Deals with the user's profile
-    Connected: Yes
-    State: Stateful
+    Purpose: Deals with the user's profile -
+    Connected: Yes -
+    State: Stateful -
     Children:
       none
 * Voting -
-    Purpose: Deals with Token and smart contract data and presents the user with stats
-    Connected: No
-    State: Stateless
-    Children:
+    Purpose: Deals with Token and smart contract data and presents the user with stats -
+    Connected: No -
+    State: Stateless -
+    Children: 
       none
 * Table -
-    Purpose: Provides the Graphical representation of the current votes per candidate
-    Connected: Yes
-    State: Stateful
+    Purpose: Provides the Graphical representation of the current votes per candidate -
+    Connected: Yes -
+    State: Stateful -
     Children:
       none
 * Info -
-    Purpose: Provides the user with instructions on how to use the app
-    Connected: Yes
-    State: Stateless
+    Purpose: Provides the user with instructions on how to use the app -
+    Connected: Yes -
+    State: Stateless -
     Children:
       none
 * Login -
-    Purpose:  Deals with Metamask and auth
-    Connected:  Yes
-    State:  Stateful
+    Purpose:  Deals with Metamask and auth -
+    Connected:  Yes -
+    State:  Stateful -
     Children:
       none
 * Purchase -
-    Purpose:  Provides the user a way to buy more votes
-    Connected: No
-    State: Stateless
+    Purpose:  Provides the user a way to buy more votes -
+    Connected: No -
+    State: Stateless -
     Children:
       none
 
