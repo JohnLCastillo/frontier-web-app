@@ -1,7 +1,7 @@
 # Frontier Challenge
 
 ## Project Description
-Voting app that includes authentication with Metamask and connected to a smart contract with react
+Voting app that includes authentication with Metamask and connected to a smart contract with react. Votes update every minute for test purposes but in regular production will update everyday.
 
 ## Tech Stack
 
@@ -39,8 +39,8 @@ Voting app that includes authentication with Metamask and connected to a smart c
     State: Stateful -
     Children:
       User
+      Token
       Voting
-      Table
       Info
       Login
       Purchase
@@ -50,13 +50,13 @@ Voting app that includes authentication with Metamask and connected to a smart c
     State: Stateful -
     Children:
       none
-* Voting -
+* Token -
     Purpose: Deals with Token and smart contract data and presents the user with stats -
     Connected: No -
     State: Stateless -
     Children: 
       none
-* Table -
+* Voting -
     Purpose: Provides the Graphical representation of the current votes per candidate -
     Connected: Yes -
     State: Stateful -

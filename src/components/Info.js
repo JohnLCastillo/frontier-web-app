@@ -11,6 +11,7 @@ class Info extends Component {
                 <br/>
                  <strong>Step 3</strong>: Vote for candidates by entering their name and no. of tokens to vote with.
                  <br/>
+                 Votes update every minute.
              </div>
         );
     }

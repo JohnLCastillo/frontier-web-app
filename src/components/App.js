@@ -5,10 +5,10 @@ import "./App.css";
 import Info from './Info'
 import Login from './Login'
 import Profile from './User'
-import Table from "./Table";
+import Voting from './Voting';
 import jwtDecode from 'jwt-decode';
 // UNCOMMENT COMPONENTS FOR TESTING!!
-// import Voting from './Voting';
+// import Token from "./Token";
 // import Purchase from './Purchase'
 
 const LS_KEY = "Hi Carlos!";
@@ -20,7 +20,7 @@ class App extends Component {
     super (props);
 
     // WHERE REACT AND THE SMART CONTRACT GET CONNECTED... MUST MINIMIZE THE CODE AS IT IS 200+ LINES OF ABI CODE.
-    
+
     const MyContract = window.web3.eth.contract([
       {
         "constant": false,
@@ -352,8 +352,8 @@ class App extends Component {
     const webApp = 
     (<div>
       <div>
-        <Table auth={auth} candidates={this.state.candidates}/>
-        {/* <Voting contract={this.state.ContractInstance}/> */}
+        <Voting auth={auth} candidates={this.state.candidates}/>
+        {/* <Token contract={this.state.ContractInstance}/> */}
     </div>
     {/* <div>
         <Purchase contract={this.state.ContractInstance}/>
