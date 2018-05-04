@@ -118,11 +118,10 @@ class Login extends Component {
     return (
       <div>
         <p>
-          Please select your login method.<br />For the purpose of this demo,
-          only MetaMask login is implemented.
+          Please Login/Signup with the button below
         </p>
         <button className="Login-button Login-mm" onClick={this.handleClick}>
-          {loading ? 'Loading...' : 'Login with MetaMask'}
+          {loading ? 'Loading...' : 'Login/Sign up with MetaMask'}
         </button>
       </div>
     );
