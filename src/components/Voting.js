@@ -4,6 +4,7 @@ class Voting extends Component {
   render() {
     return (
       <div>
+        <h1>Contract Details</h1>
         <table className="table table-bordered">
          <thead>
           <tr>

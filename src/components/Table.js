@@ -4,6 +4,7 @@ class Table extends Component {
   render() {
     return (
       <div>
+          <h1>Candidates</h1>
         <table className="table table-bordered">
           <thead>
             <tr>
