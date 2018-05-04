@@ -6,7 +6,7 @@ Voting app that includes authentication with Metamask and connected to a smart c
 ## Tech Stack
 
 * Front End: HTML, CSS, JavaScript, React,web3
-* Back End: Node.js, Express.js, sockets
+* Back End: Node.js, Express.js, Sockets
 * Database: Mongoose and MongoDB
 
 ## Server - REST API
