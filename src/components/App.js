@@ -5,6 +5,8 @@ import Info from './Info'
 import Login from './Login'
 import Profile from './User'
 import Table from "./Table";
+import Voting from './Voting';
+import Purchase from './Purchase'
 const LS_KEY = "mm-login-demo:auth";
 
 class App extends Component {
@@ -316,6 +318,10 @@ class App extends Component {
         </div>
         <div>
           <Table votes={this.state.candiates}/>
+          <Voting contract={this.state.ContractInstance}/>
+        </div>
+        <div>
+          <Purchase contract={this.state.ContractInstance}/>
         </div>
       </div>
     );
