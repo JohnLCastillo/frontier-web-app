@@ -20,7 +20,7 @@ class Login extends Component {
     }).then(response => response.json());
 
   handleClick = () => {
-    console.log('in handleClick!');
+    //console.log('in handleClick!');
     if (!window.web3) {
       window.alert('Please install MetaMask first.');
       return;
@@ -28,32 +28,32 @@ class Login extends Component {
     if (!web3) {
       // We don't know window.web3 version, so we use our own instance of web3
       // with provider given by window.web3
-      console.log('web3 is null');
+      //console.log('web3 is null');
       web3 = new Web3(window.web3.currentProvider);
       // web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
     } else {
       // set the provider you want from Web3.providers
-      console.log('web3 is not null');
+      //console.log('web3 is not null');
       web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     }
-    // console.log(window.web3.eth.coinbase)
+    // //console.log(window.web3.eth.coinbase)
     // if (!web3.eth.getCoinbase()) {
     //   window.alert('Please activate MetaMask first.');
     //   currentCoinbase = 
     //   return;
     // }
-    // console.log(window.web3.personal)
+    // //console.log(window.web3.personal)
     web3.eth.getCoinbase()
       .then(data => {
-        console.log('coinbase data', data);
+        //console.log('coinbase data', data);
         if (!data) {
           throw new Error('Log into Metamask.');
         }
 
         currentCoinbase = data;
         publicAddress = currentCoinbase.toLowerCase();
-        console.log('publicAddress from coinbase data', publicAddress);
+        //console.log('publicAddress from coinbase data', publicAddress);
         this.setState({ loading: true })
 
         // Look if user with current publicAddress is already present on backend
@@ -61,23 +61,23 @@ class Login extends Component {
       })
       .then(response => response.json())
       .then(users => {
-        console.log('server-response', users);
+        //console.log('server-response', users);
         return (users.length ? users[0] : this.handleSignup(publicAddress))
       })
       .then(data => {
-        console.log('handleSignUp response', data);
+        //console.log('handleSignUp response', data);
         return this.handleSignMessage(data.publicAddress, data.nonce);
       })
       .then(data => {
-        console.log('handleSignMessage response', data);
+        //console.log('handleSignMessage response', data);
         return this.handleAuthenticate(data.publicAddress,data.signature);
       })
       // Pass accessToken back to parent component (to save it in localStorage)
       // .then(onLoggedIn)
       .then((data) => this.props.onLoggedIn(data))
-      // .then((data) => console.log(data))
+      // .then((data) => //console.log(data))
       .catch(err => {
-        console.log('err! - from login auth', err.message);
+        //console.log('err! - from login auth', err.message);
         window.alert(err);
         this.setState({ loading: false });
       });
@@ -87,9 +87,9 @@ class Login extends Component {
   };
 
   handleSignMessage = (publicAddress, nonce) => {
-    console.log('handleSignMessage ran', nonce, publicAddress);
+    //console.log('handleSignMessage ran', nonce, publicAddress);
     return web3.eth.sign(web3.utils.sha3("this could be anything john lmao."), publicAddress).then(signature => {
-        console.log('web3 personal sign data', signature);
+        //console.log('web3 personal sign data', signature);
         return { publicAddress, signature };
       })
       .catch(err => {
@@ -105,7 +105,7 @@ class Login extends Component {
       },
       body: JSON.stringify({publicAddress})
     }).then(response => {
-      // console.log(publicAddress)
+      // //console.log(publicAddress)
       return response.json()
     })
     .catch(err => console.log('handle signup err: ', err));

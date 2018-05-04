@@ -287,7 +287,7 @@ class App extends Component {
     }
 
     socket.on('join data', (data) => {
-      console.log('join data -> ', data);
+      //console.log('join data -> ', data);
       
       this.setState({ 
         candidates: data.allCandidates,
@@ -296,14 +296,14 @@ class App extends Component {
     });
 
     socket.on('votes reset', (data) => {
-      console.log('votes reset -> ', data);
+      //console.log('votes reset -> ', data);
       this.setState({ 
         votes: data.votes
        });
     });
 
     socket.on('updated votes', (data) => {
-      console.log('updated votes -> ', data);
+      //console.log('updated votes -> ', data);
       this.setState({ 
         candidates: data.allCandidates,
         votes: data.votes
@@ -319,7 +319,7 @@ class App extends Component {
     if (auth) {
       const { accessToken } = auth;
       const { payload: { publicAddress } } = jwtDecode(accessToken);
-      console.log('joinnnn');
+      //console.log('joinnnn');
       socket.emit('join', { publicAddress });
     }
   
@@ -342,7 +342,7 @@ class App extends Component {
   };
 
   render() {
-    console.log('State: ', this.state);
+    //console.log('State: ', this.state);
     const { auth } = this.state;
     return (
       <div className="App">

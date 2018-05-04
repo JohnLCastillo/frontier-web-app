@@ -16,7 +16,7 @@ class Table extends Component {
   }
 
   sendVote(candidate) {
-    console.log("sendVote - clicked");
+    //console.log("sendVote - clicked");
     const { chosenCandidate } = this.state;
     const {
       auth: { accessToken }

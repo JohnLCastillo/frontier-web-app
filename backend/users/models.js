@@ -21,7 +21,7 @@ UserSchema.path('votes').validate(function(value) {
     // When running in `validate()` or `validateSync()`, the
     // validator can access the document using `this`.
     // Does **not** work with update validators.
-    console.log('models -> value: ', value);
+    //console.log('models -> value: ', value);
     return value >= 0;
   });
 

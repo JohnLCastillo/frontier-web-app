@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class Purchase extends Component {
   render() {
-      console.log(this.props.contract)
+      //console.log(this.props.contract)
     return (
       <div>
         <h2>Purchase Tokens</h2>

@@ -41,14 +41,14 @@ app.use('*', (req, res) => {
 let server;
 
 function runServer(databaseUrl = process.env.DATABASE_URL, port = process.env.PORT) {
-    console.log('databaseurl-', databaseUrl)
+    //console.log('databaseurl-', databaseUrl)
 	return new Promise((resolve, reject) => {
 		mongoose.connect(databaseUrl, err => {
 			if (err) {
 				return reject(err);
 			}
 			server = app.listen(port, () => {
-				console.log(`Your app is listening on port ${port}`);
+				//console.log(`Your app is listening on port ${port}`);
 				socket(server);
 				resolve(server);
 			})
@@ -65,7 +65,7 @@ function runServer(databaseUrl = process.env.DATABASE_URL, port = process.env.PO
 function closeServer() {
 	return new Promise((resolve, reject) => {
 		mongoose.disconnect();
-		console.log('Closing server');
+		//console.log('Closing server');
 		server.close(err => {
 			console.error(err);
 			if (err) {
@@ -75,7 +75,7 @@ function closeServer() {
 		});
 	})
 		.catch(err =>{
-			return console.log(err);
+			return //console.log(err);
 		});
 }
 
