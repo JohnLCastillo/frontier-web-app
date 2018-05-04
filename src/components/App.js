@@ -275,9 +275,11 @@ class App extends Component {
     ]);
     this.state = {
       ContractInstance: MyContract.at('0x31ce01dd8f9d5619fdb434f6a364f98528ddd825'),
-      AA: 0,
-      BB: 0,
-      CC: 0
+      candiates: {
+        AA: 0,
+        BB: 0,
+        CC: 0
+      }
     }
   }
   componentWillMount() {
@@ -313,7 +315,7 @@ class App extends Component {
           )}
         </div>
         <div>
-          <Table />
+          <Table votes={this.state.candiates}/>
         </div>
       </div>
     );
